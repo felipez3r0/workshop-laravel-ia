@@ -5,31 +5,37 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 //use Anthropic\Laravel\Facades\Anthropic;
 use OpenAI\Laravel\Facades\OpenAI;
+use League\CommonMark\CommonMarkConverter;
 
 class DashboardController extends Controller
 {
-    public function index()
-    {
-        $IATalk = "Qual a versão atual do Laravel?";
+  public function index()
+  {
+    return view('dashboard');
+  }
 
-        // $result = Anthropic::messages()->create([
-        //     'model' => 'claude-3-haiku-20240307',
-        //     'max_tokens' => 1024,
-        //     'messages' => [
-        //       ['role' => 'user', 'content' => $IATalk]
-        //     ],
-        //   ]);
-        $result = OpenAI::chat()->create([
-          'model' => 'gpt-4o-mini',
-          'max_tokens' => 1024,
-          'messages' => [
-              ['role' => 'user', 'content' => $IATalk],
-          ],
-        ]);
+  public function chat(Request $request)
+  {
+    $request->validate([
+      'msg' => 'required',
+    ]);
 
-        //echo nl2br($result->content[0]->text);
-        $iaResponse = nl2br($result->choices[0]->message->content);
+    $converter = new CommonMarkConverter([
+      'html_input' => 'strip',
+      'allow_unsafe_links' => false,
+    ]);
 
-        return view('dashboard', compact('iaResponse'));
-    }
+    $IATalk = $request->msg;
+    $result = OpenAI::chat()->create([
+      'model' => 'gpt-4o-mini',
+      'max_tokens' => 1024,
+      'messages' => [
+        ['role' => 'user', 'content' => $IATalk],
+      ],
+    ]);
+
+    $iaResponse = $converter->convert($result->choices[0]->message->content);
+
+    return view('dashboard', compact('iaResponse'));
+  }
 }

@@ -11,8 +11,21 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     Workshop - Laravel + IA
                 </div>
+                <form class="px-6 text-gray-900 dark:text-gray-100" method="POST" action="/chat">
+                    @csrf
+                    <textarea 
+                    id="msg"
+                    name="msg" 
+                    class="w-full h-32 p-2 text-gray-900 
+                    border border-gray-300 dark:border-gray-700 rounded-lg" 
+                    placeholder="Digite sua mensagem para a IA"></textarea>
+                    <button type="submit" 
+                    class="w-full p-2 mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg">
+                        Enviar
+                    </button>
+                </form>
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ $iaResponse }}
+                    {!! $iaResponse ?? '' !!}
                 </div>
             </div>
         </div>

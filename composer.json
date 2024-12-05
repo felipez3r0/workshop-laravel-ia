@@ -12,6 +12,7 @@
         "php": "^8.2",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "league/commonmark": "^2.5",
         "mozex/anthropic-laravel": "^1.0",
         "openai-php/laravel": "^0.10.2"
     },
