@@ -19,3 +19,7 @@ Blade with Alpine
 6: `./vendor/bin/sail artisan anthropic:install` OU `php artisan anthropic:install`
 
 7: `./vendor/bin/sail artisan make:controller DashboardController`
+
+8: `composer require openai-php/laravel`
+
+9: Adicionar as keys no .env
